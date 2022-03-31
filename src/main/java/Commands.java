@@ -1,9 +1,14 @@
 import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.managers.AudioManager;
+
+import java.util.List;
+
 
 public class Commands extends ListenerAdapter {
 
@@ -33,6 +38,17 @@ public class Commands extends ListenerAdapter {
 
             AudioManager audioManager = event.getGuild().getAudioManager();
             audioManager.openAudioConnection(connectedChannel);
+
+//            System.out.println(connectedChannel.getId());
+//            System.out.println(connectedChannel.getMembers());
+            List<Member> testVariable = connectedChannel.getMembers();
+            Member choosenOne = testVariable.get(0);
+//            System.out.println(choosenOne);
+
+            event.getGuild().moveVoiceMember(choosenOne, null).queue();
+
+
+
         } else if (args[0].equalsIgnoreCase(prefix + "leave")) {
             VoiceChannel connectedChannel = (VoiceChannel) event.getGuild().getSelfMember().getVoiceState().getChannel();
             if (connectedChannel == null) {
