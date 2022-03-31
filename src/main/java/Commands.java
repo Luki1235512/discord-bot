@@ -49,6 +49,12 @@ public class Commands extends ListenerAdapter {
         } else if (args[0].equalsIgnoreCase(prefix + "roulette")) {
 
             VoiceChannel connectedChannel = (VoiceChannel) event.getMember().getVoiceState().getChannel();
+
+            if (connectedChannel == null) {
+                channel.sendMessage("You need to be a part of the game kiddo ;)").queue();
+                return;
+            }
+
             List<Member> members = connectedChannel.getMembers();
 
             int randomInt = (int)Math.floor(Math.random()*(members.size() - 1));
