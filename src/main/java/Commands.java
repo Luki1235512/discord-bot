@@ -22,8 +22,6 @@ public class Commands extends ListenerAdapter {
         TextChannel channel = (TextChannel) event.getChannel();
 
         if (args[0].equalsIgnoreCase(prefix + "join")) {
-
-//            event.getChannel().sendMessage("mortadela").queue();
             if (!event.getGuild().getSelfMember().hasPermission(channel, Permission.VOICE_CONNECT)) {
                 channel.sendMessage("I can't join").queue();
                 return;
@@ -39,15 +37,6 @@ public class Commands extends ListenerAdapter {
             AudioManager audioManager = event.getGuild().getAudioManager();
             audioManager.openAudioConnection(connectedChannel);
 
-//            System.out.println(connectedChannel.getId());
-//            System.out.println(connectedChannel.getMembers());
-            List<Member> testVariable = connectedChannel.getMembers();
-            Member choosenOne = testVariable.get(0);
-//            System.out.println(choosenOne);
-
-            event.getGuild().moveVoiceMember(choosenOne, null).queue();
-
-
 
         } else if (args[0].equalsIgnoreCase(prefix + "leave")) {
             VoiceChannel connectedChannel = (VoiceChannel) event.getGuild().getSelfMember().getVoiceState().getChannel();
@@ -56,6 +45,16 @@ public class Commands extends ListenerAdapter {
                 return;
             }
             event.getGuild().getAudioManager().closeAudioConnection();
+
+        } else if (args[0].equalsIgnoreCase(prefix + "roulette")) {
+
+            VoiceChannel connectedChannel = (VoiceChannel) event.getMember().getVoiceState().getChannel();
+            List<Member> members = connectedChannel.getMembers();
+
+            int randomInt = (int)Math.floor(Math.random()*(members.size() - 1));
+            Member chosenOne = members.get(randomInt);
+
+            event.getGuild().moveVoiceMember(chosenOne, null).queue();
         }
 
 
